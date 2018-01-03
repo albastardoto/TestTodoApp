@@ -1,3 +1,8 @@
+Basic CRUD application for todo's with user functionality
+
+
+STARTUP GUIDE:
+
 Make sure you have node installed.
 This uses a mongo database so be sure
 you have a mongodb server up and running.
