@@ -77,9 +77,6 @@ app.patch("/todos/:id",(req,res)=>{
       body.completed=false;
     }
   }
-  if(req.body.text && typeof req.body.text ==="string"){
-    body.text=req.body.text;
-  }
   Todo.findByIdAndUpdate(id, {$set: body},{new:true}).then((todo)=>{
     if(!todo){
       return res.status(404).send();
