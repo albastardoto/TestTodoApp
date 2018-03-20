@@ -7,8 +7,8 @@ var {ObjectId} = require("mongodb");
 var {mongoose}= require("./db/mongoose")
 var {Todo}=require("./models/todo");
 var {User}=require("./models/user");
-let {authenticate}=require("./middleware/authenticate");
-let config = require("./config/config");
+var {authenticate} = require("./middleware/authenticate");
+var config = require("./config/config");
 
 
 var app = express();
