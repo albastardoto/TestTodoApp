@@ -1,4 +1,3 @@
-let config = require("./config/config.js");
 
 const _=require("lodash");
 var express= require("express");
@@ -9,6 +8,9 @@ var {mongoose}= require("./db/mongoose")
 var {Todo}=require("./models/todo");
 var {User}=require("./models/user");
 let {authenticate}=require("./middleware/authenticate");
+let config = require("./config/config");
+
+
 var app = express();
 const port = process.env.PORT;
 app.use(bodyParser.json());
