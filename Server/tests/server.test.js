@@ -114,7 +114,7 @@ describe("DELETE /todos/:id",()=>{
         return done(err);
       }
       Todo.findById(todos[1]._id.toHexString()).then((todo)=>{
-        expect(todo).toBeNull();
+        expect(todo).toBeFalsy();
         done();
       }).catch((e)=>done(e));
     });
