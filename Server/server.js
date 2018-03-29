@@ -3,6 +3,7 @@ const _=require("lodash");
 var express= require("express");
 var bodyParser = require("body-parser");
 var {ObjectId} = require("mongodb");
+var cors=require("cors");
 
 var {mongoose}= require("./db/mongoose")
 var {Todo}=require("./models/todo");
@@ -13,7 +14,7 @@ var config = require("./config/config");
 
 var app = express();
 const port = process.env.PORT;
-app.use(bodyParser.json());
+app.use(bodyParser.json(),cors);
 
 app.post("/todos",authenticate,(req,res)=>{
   var todo = new Todo({
