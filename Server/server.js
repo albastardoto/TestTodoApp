@@ -14,7 +14,8 @@ var config = require("./config/config");
 
 var app = express();
 const port = process.env.PORT;
-app.use(bodyParser.json(),cors);
+app.use(bodyParser.json(),cors());
+app.options('*', cors());
 
 app.post("/todos",authenticate,(req,res)=>{
   var todo = new Todo({
