@@ -125,7 +125,10 @@ app.post("/users/login",(req,res)=>{
       res.header("x-auth",token).send(user);
     })
   }).catch(err=>{
-    res.status(400).send(err);
+    console.log(err);
+    if(err.message==="unauthorized"){
+    res.status(401).send({message:err.message});
+    }
   })
 });
 
