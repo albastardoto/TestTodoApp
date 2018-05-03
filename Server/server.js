@@ -15,8 +15,8 @@ var {authenticate} = require("./middleware/authenticate");
 
 var app = express();
 const port = process.env.PORT;
-app.use(bodyParser.json(),cors());
-app.options('*', cors({exposedHeaders:["x-auth"],allowedHeaders:["x-auth"]}));
+app.use(bodyParser.json(),cors({exposedHeaders:["x-auth"],allowedHeaders:["x-auth"]}));
+//app.options('*', cors());
 
 app.post("/todos",authenticate,(req,res)=>{
   var todo = new Todo({
@@ -125,7 +125,6 @@ app.post("/users/login",(req,res)=>{
       res.header("x-auth",token).send(user);
     })
   }).catch(err=>{
-    console.log(err);
     if(err.message==="unauthorized"){
     res.status(401).send({message:err.message});
     }
