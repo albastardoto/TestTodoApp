@@ -15,7 +15,7 @@ var {authenticate} = require("./middleware/authenticate");
 
 var app = express();
 const port = process.env.PORT;
-app.use(bodyParser.json(),cors({exposedHeaders:["x-auth"],allowedHeaders:["x-auth"]}));
+app.use(bodyParser.json(),cors());
 app.options('*', cors({exposedHeaders:["x-auth"],allowedHeaders:["x-auth"]}));
 
 app.post("/todos",authenticate,(req,res)=>{
