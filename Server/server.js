@@ -16,7 +16,14 @@ var {authenticate} = require("./middleware/authenticate");
 var app = express();
 const port = process.env.PORT;
 app.use(bodyParser.json(),cors());
-app.options('*', cors({exposedHeaders:["X-Auth"],allowedHeaders:["X-Auth"]}));
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'x-auth');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});  
+app.options('*', cors());
 
 app.post("/todos",authenticate,(req,res)=>{
   var todo = new Todo({
