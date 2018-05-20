@@ -16,15 +16,21 @@ var {authenticate} = require("./middleware/authenticate");
 var app = express();
 const port = process.env.PORT;
 app.use(bodyParser.json(),cors());
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Auth');
-  res.setHeader('Access-Control-Expose-Headers', 'X-Auth');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});  
-app.options('*', cors());
+if(process.env.NODE_ENV!==undefined){
+  app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Auth');
+    res.setHeader('Access-Control-Expose-Headers', 'X-Auth');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+  });  
+  app.options('*', cors());
+  
+}else{
+  console.log("else thing");
+}
+
 
 app.post("/todos",authenticate,(req,res)=>{
   var todo = new Todo({
@@ -110,6 +116,10 @@ app.patch("/todos/:id",authenticate,(req,res)=>{
 
 app.post("/users",(req,res)=>{
   let body= _.pick(req.body,["email","password"]);
+  if(User.find({"email":body.email})){
+    res.status(409).send();
+    return;
+  }else{
   let user= new User(body);
   user.save().then(()=>{
     return user.generateAuthToken();
@@ -118,7 +128,7 @@ app.post("/users",(req,res)=>{
   }).catch((e)=>{
     res.status(400).send(e);
   });
-
+  }
 })
 
 app.get("/users/me",authenticate,(req,res)=>{
