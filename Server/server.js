@@ -116,19 +116,19 @@ app.patch("/todos/:id",authenticate,(req,res)=>{
 
 app.post("/users",(req,res)=>{
   let body= _.pick(req.body,["email","password"]);
-  if(User.find({"email":body.email})){
-    res.status(409).send();
-    return;
-  }else{
   let user= new User(body);
   user.save().then(()=>{
     return user.generateAuthToken();
   }).then((token)=>{
     res.header("x-auth",token).send(user);
   }).catch((e)=>{
+    console.log(e);
+    if(e.message==="Duplicate"){
+      res.status(409).send(e);
+      return;
+    }
     res.status(400).send(e);
   });
-  }
 })
 
 app.get("/users/me",authenticate,(req,res)=>{
